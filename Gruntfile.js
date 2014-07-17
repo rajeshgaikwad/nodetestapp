@@ -502,8 +502,31 @@ module.exports = function (grunt) {
         }
       }
     },
-  });
 
+  mocha_istanbul: {
+    coveralls: {
+        src: 'server', 
+        options: {
+          coverage     : true,
+          noColors     : true,
+          print        : 'detail',
+          mask: '**/*.spec.js',
+          check: {
+            lines: 1,
+            statements: 1
+          },
+          reportFormats: ['cobertura','lcovonly']
+        }
+      }
+    }
+    
+    });
+
+grunt.event.on('coverage', function(lcovFileContents, done){
+   // Check below
+   console.log(lcovFileContents.slice(0, 15) + '...');
+   done();
+});
   // Used for delaying livereload until after server has restarted
   grunt.registerTask('wait', function () {
     grunt.log.ok('Waiting for server reload...');
